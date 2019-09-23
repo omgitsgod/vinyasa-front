@@ -1,6 +1,6 @@
 import React from 'react';
 import pose from './imgs/1.svg'
-import './App.css';
+import './css/App.css';
 
 function App() {
   return (
