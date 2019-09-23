@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/Routine.css';
 
-function Routine() {
+function Routine(props) {
   return (
     <div>
     </div>
