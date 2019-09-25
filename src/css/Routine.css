@@ -12,13 +12,24 @@
 }
 
 .name {
-  background-color: blue;
+/*  background-color: blue; */
   float: left;
   width: 50vh;
+  min-height: 25vh;
 }
 
 .time {
-  background-color: green;
-  float: left;
+/*  background-color: green; */
+  float: right;
   width: 50vh;
+  min-height: 25vh;
+}
+
+.pose-img {
+  height: 10vh;
+  width: 10vh;
+}
+
+.result {
+  font-size: 2.5vh
 }
