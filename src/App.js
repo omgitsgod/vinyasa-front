@@ -1,6 +1,6 @@
 import React from 'react';
 import RoutineContainer from './RoutineContainer'
-import pose from './imgs/1.svg'
+import pose from './imgs/25.svg'
 import './css/App.css';
 
 function App() {

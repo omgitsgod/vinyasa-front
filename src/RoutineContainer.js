@@ -8,13 +8,6 @@ function RoutineContainer() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [routineTimes, setRoutineTimes] = useState([]);
 
-  const sumTime = () => {
-    let x = 60
-    if (routineTimes.length > 0) {
-      x = x - routineTimes.reduce((x,y) => x+y)
-    }
-    setTimeLeft(x)
-  }
 
   const addToRoutineTimes = (num, time) => {
     let temp = [...routineTimes]
@@ -27,6 +20,15 @@ function RoutineContainer() {
     setTimeLeft(x)
   }
 
+  const addToRoutines = (num, routine, time) => {
+    let temp = [...routines]
+    let tempy = {...routine}
+    tempy.time = time
+    tempy.num = num + 1
+    temp[num] = tempy
+    setRoutines(temp)
+  }
+
   const addRoutine = () => {
     setRoutines([...routines, {num: routineNum}])
     setRoutineNum(routineNum + 1)
@@ -37,8 +39,8 @@ function RoutineContainer() {
     let temp = routines.filter(x => x.num !== num)
     setRoutines(temp)
   }
-  const displayRoutines = routines.map(x => <Routine key={x.num} num={x.num} addToRoutineTimes={addToRoutineTimes}/>)
-  console.log(routineTimes);
+  const displayRoutines = routines.map(x => <Routine key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes}/>)
+  console.log(routines);
   return (
     <div className='mat'>
       <div className='heading'>
@@ -46,9 +48,7 @@ function RoutineContainer() {
           <button onClick={deleteRoutine}>-</button>
           <button onClick={addRoutine}>+</button>
         </div>
-        <p>
-          {timeLeft} Minute(s)
-        </p>
+        {timeLeft !== 1 ? <p>{timeLeft} Minutes</p> : <p>{timeLeft} Minute</p>}
       </div>
       {displayRoutines}
     </div>

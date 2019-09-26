@@ -21,38 +21,44 @@ function Routine(props) {
     }
   }, [])
 
-  const handleSearch = (term) => {
-    setSearch(term)
-    let list = poses.map(x => x.english_name)
-    let results = list.filter(x => x.toLowerCase().includes(term))
-    setResults(results)
-    console.log('term', term);
-    let index = list.indexOf('')
-    console.log('index', );
-    console.log(results);
-  }
+
   const select = (e) => {
-    let term = e.target.innerText
-    let tempPose = poses.filter(x => x.english_name === term)[0]
-    setPose(tempPose)
-    setOpen(false)
-    setResults([])
-    console.log(pose);
+    let term = e.target.value
+    if (poses.filter(x => x.english_name === term)[0] || poses.filter(x => x.sanskrit_name === term)[0]) {
+      let tempPose
+      if (poses.filter(x => x.english_name === term)[0]) {
+        tempPose = {...poses.filter(x => x.english_name === term)[0]}
+        tempPose.chosen = tempPose.english_name
+      } else if (poses.filter(x => x.sanskrit_name === term)[0])  {
+        tempPose = {...poses.filter(x => x.sanskrit_name === term)[0]}
+        tempPose.chosen = tempPose.sanskrit_name
+      }
+      setPose(tempPose)
+      setOpen(false)
+      setResults([])
+      props.addToRoutines(props.num-1, tempPose, time)
+      console.log(pose);
+    }
   }
+  console.log(svgs['./1.svg']);
   return (
     <div className='pose'>
     <div className='name'>
-      {pose.english_name ? <p onClick={() => setOpen(!open)}>{pose.english_name}</p> : <p>Pose</p>}
-      {open ? <input type='text' onChange={(e)=> handleSearch(e.target.value)} value={search}/> : null}
-      {pose.id ? <img src={svgs[pose.img]} className='pose-img' alt='pose'/> : null}
-      <ul>
-      {results.length > 0 && results.length < 20 ? results.map((x,y) => <li key={y} onClick={select} className="result">{x}</li>) : null}
-      </ul>
+      {pose.chosen ? <p className='name-text' onClick={() => setOpen(!open)}>{pose.chosen}</p> : <p className='name-text'>Pose</p>}
+      {open ?
+        <div>
+        <input list='brow' className='search' onChange={select}/>
+      <datalist id='brow'>
+        {[...poses.map(x => <option value={x.english_name}/>),...poses.map(x => <option value={x.sanskrit_name}/>)]}
+      </datalist>
+      </div>
+      : null }
+      {pose.id && !open ? <img src={svgs[pose.img]} className='pose-img' alt='pose'/> : null}
     </div>
     <div className='time'>
-      <p>{time} minute(s)</p>
-      <input onChange={
-        (e)=> {setTime(e.target.value); props.addToRoutineTimes(props.num-1, parseInt(e.target.value))}}
+      {time !== 1 ? <p className='time-text'>{time} minutes</p> : <p className='time-text'>{time} minute</p>}
+      <input className='slider' onChange={
+        (e)=> {setTime(e.target.value); props.addToRoutineTimes(props.num-1, parseInt(e.target.value)); props.addToRoutines(props.num-1, pose, parseInt(e.target.value))}}
         type="range" min={1} max={5} defaultValue={time} />
     </div>
     </div>
