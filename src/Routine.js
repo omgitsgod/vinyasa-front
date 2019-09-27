@@ -16,6 +16,10 @@ function Routine(props) {
   const [open, setOpen] = useState(true)
   useEffect(()=>{
     props.addToRoutineTimes(props.num-1, 2)
+    if (props.load.id) {
+      setPose(props.load)
+      setOpen(false)
+    }
     return ()=> {
       props.addToRoutineTimes(props.num-1, 0)
     }
