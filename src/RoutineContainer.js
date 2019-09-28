@@ -68,19 +68,26 @@ function RoutineContainer() {
   return (
     <div className='mat'>
       <div className='heading'>
+        {routines.length > 0 ?
+        <div>
+          <button onClick={() => {setRoutines([]); localStorage.clear()}}>New</button>
+          <button onClick={() => {localStorage.setItem('routines', JSON.stringify(routines)); localStorage.setItem('num', routineNum); console.log('routines: ', routines); console.log('num: ', routineNum);}}>Save</button>
+        </div>
+        :
         <div>
           <button onClick={deleteRoutine}>-</button>
           <button onClick={addRoutine}>+</button>
         </div>
+        }
         {timeLeft !== 1 ? <p>{timeLeft} Minutes</p> : <p>{timeLeft} Minute</p>}
         {!open ? <p onClick={setOpen}>{date.toDateString()}</p> : <Calendar onChange={handleDate} value={date}/>}
       </div>
       {displayRoutines}
       {routines.length > 0 ?
-      <div>
-      <button onClick={() => {setRoutines([]); localStorage.clear()}}>New</button>
-      <button onClick={() => {localStorage.setItem('routines', JSON.stringify(routines)); localStorage.setItem('num', routineNum)}}>Save</button>
-      </div>
+        <div>
+          <button onClick={deleteRoutine}>-</button>
+          <button onClick={addRoutine}>+</button>
+        </div>
       :
       null
       }
