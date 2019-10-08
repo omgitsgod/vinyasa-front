@@ -5,73 +5,97 @@ import './css/RoutineContainer.css';
 
 function RoutineContainer() {
   const [routines, setRoutines] = useState([]);
-  const [routineNum, setRoutineNum] = useState(1);
   const [timeLeft, setTimeLeft] = useState(60);
-  const [routineTimes, setRoutineTimes] = useState([]);
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)))
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem('routines')) {
-      setRoutines(JSON.parse(localStorage.getItem('routines')))
-      setRoutineNum(JSON.parse(localStorage.getItem('num')))
-    }
     fetch(`https://vinyasa-backend.herokuapp.com/`)
       .then(r => r.text())
       .then(console.log)
+      handleLoadDate(date)
   },[])
-  const addToRoutineTimes = (num, time) => {
-    let temp = [...routineTimes]
-    temp[num] = time
+  const addToRoutineTimes = (list) => {
+    let temp
+    if (list) {
+    temp = list.map(x => x.time)
+  } else {
+    temp = routines.map(x => x.time)
+  }
     let x = 60
     if (temp.length > 0) {
       x = x - temp.reduce((x,y) => x+y)
     }
-    setRoutineTimes(temp)
     setTimeLeft(x)
   }
 
-  const addToRoutines = (num, routine, time) => {
+  const addToRoutines = (num, routine) => {
     let temp = [...routines]
     let tempy = {...routine}
-    tempy.time = time
     tempy.num = num + 1
     temp[num] = tempy
+    addToRoutineTimes(temp)
     setRoutines(temp)
   }
 
   const addRoutine = () => {
-    setRoutines([...routines, {num: routineNum}])
-    setRoutineNum(routineNum + 1)
+    let temp = [...routines, {num: routines.length + 1, time: 2}]
+    setRoutines(temp)
   }
 
   const deleteRoutine = () => {
-    let num = routineNum - 1
-    setRoutineNum(num)
-    let temp = routines.filter(x => x.num !== num)
+    let temp = routines.filter(x => x.num !== routines.length)
+    addToRoutineTimes(temp)
     setRoutines(temp)
   }
 
   const handleDate = (date) => {
     setDate(date)
+    handleLoadDate(date)
     setOpen(false)
+  }
+
+  const handleLoadDate = (date) => {
+    setRoutines([])
+    fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`)
+      .then(r => r.json())
+      .then(json => {
+        if(json){
+          setRoutines(json.routine)
+          console.log('json', json.routine);
+        } else {
+          setRoutines([])
+        }
+      })
+  }
+
+  const handleSaveDate = () => {
+    let datey = `${date.getMonth() + 1}/${date.getDate()}`
+    let temp = JSON.stringify({datey, routines})
+    console.log(temp);
+    fetch(`https://vinyasa-backend.herokuapp.com/saveRoutine`, {
+      method: 'POST',
+      body: temp,
+      headers: {'Content-Type': 'application/json'}
+    })
   }
 
   const db = () => {
     fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
   }
 
-  const displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes}/>)
+  const displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} routines={routines}/>)
 
   console.log(routines);
+  console.log(date.getTime());
 
   return (
     <div className='mat'>
       <div className='heading'>
         {routines.length > 0 ?
         <div>
-          <button onClick={() => {setRoutines([]); localStorage.clear()}}>New</button>
-          <button onClick={() => {localStorage.setItem('routines', JSON.stringify(routines)); localStorage.setItem('num', routineNum); console.log('routines: ', routines); console.log('num: ', routineNum);}}>Save</button>
+          <button onClick={() => {setRoutines([]); localStorage.clear(); addToRoutineTimes([])}}>New</button>
+          <button onClick={() => handleSaveDate()}>Save</button>
         </div>
         :
         <div>
@@ -89,7 +113,7 @@ function RoutineContainer() {
           <button onClick={addRoutine}>+</button>
         </div>
       :
-      null
+        null
       }
     </div>
   );
