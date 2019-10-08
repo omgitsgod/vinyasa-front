@@ -2,9 +2,8 @@
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: white;
-  width: 100vh;
+  width: 60vw;
   text-align: left;
-
 }
 
 .num {
@@ -14,22 +13,22 @@
 .name {
 /*  background-color: blue; */
   float: left;
-  width: 50vh;
+  width: 15vw;
   min-height: 10vh;
 }
 
 .time {
 /*  background-color: green; */
   float: right;
-  width: 50vh;
+  width: 15vw;
   min-height: 10vh;
 }
 
 .pose-img {
   height: 10vh;
-  width: 10vh;
+  width: 10vw;
   float: right;
-  margin-right: 10vh;
+  margin-right: -10vw;
   max-height: 10vh;
 }
 
@@ -41,25 +40,25 @@
 .time-text {
   font-size: 2.5vh;
   float: right;
-  margin-right: 2.5vh;
+  margin-right: 2.5vw;
 }
 
 .name-text {
   font-size: 2.5vh;
   float: left;
-  margin-left: 2.5vh;
+  margin-left: 2.5vw;
 }
 
 .search {
   float: left;
   margin-top: 2.5vh;
-  margin-left: 2.5vh;
+  margin-left: 2.5vw;
 }
 
 .slider {
   float: left;
   margin-top: 3.5vh;
-  margin-left: 2.5vh;
+  margin-left: -10vw;
 }
 
 .pop-up {
