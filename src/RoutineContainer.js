@@ -74,7 +74,9 @@ function RoutineContainer() {
   const handleDeleteDate = () => {
     setRoutines([])
     setLoaded(false)
-    fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${date.getMonth() + 1}/${date.getDate()}`)
+    fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${date.getMonth() + 1}/${date.getDate()}`, {
+    method: 'delete'
+    })
   }
 
   const handleSaveDate = () => {
@@ -102,7 +104,7 @@ function RoutineContainer() {
       <div className='heading'>
         {routines.length > 0 ?
         <div>
-          <button onClick={() => {setRoutines([]); localStorage.clear(); addToRoutineTimes([])}}>New</button>
+          <button onClick={() => {setRoutines([]); addToRoutineTimes([])}}>New</button>
           {loaded ? <button style={{backgroundColor: 'red'}}onClick={() => handleDeleteDate()}>Delete</button> : null}
           <button onClick={() => handleSaveDate()}>Save</button>
         </div>
