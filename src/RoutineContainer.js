@@ -8,6 +8,7 @@ function RoutineContainer() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)))
   const [open, setOpen] = useState(false)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     fetch(`https://vinyasa-backend.herokuapp.com/`)
@@ -63,6 +64,7 @@ function RoutineContainer() {
         if(json){
           setRoutines(json.routine)
           console.log('json', json.routine);
+          setLoaded(true)
         } else {
           setRoutines([])
         }
@@ -95,6 +97,7 @@ function RoutineContainer() {
         {routines.length > 0 ?
         <div>
           <button onClick={() => {setRoutines([]); localStorage.clear(); addToRoutineTimes([])}}>New</button>
+          {loaded ? <button style={{backgroundColor: 'red'}}onClick={() => handleSaveDate()}>Delete</button> : null}
           <button onClick={() => handleSaveDate()}>Save</button>
         </div>
         :
