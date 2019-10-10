@@ -90,11 +90,26 @@ function RoutineContainer() {
     })
   }
 
+  const handleDeleteIndividual = (num) => {
+    const temp = [...routines].filter(x => x.num !== num)
+    for (let i = 0; i < temp.length; i++) {
+      if (temp[i].num > num) {
+        temp[i].num -= 1
+      }
+    }
+    displayRoutines = temp.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
+    setRoutines(temp)
+  }
+
   const db = () => {
     fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
   }
 
-  const displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} routines={routines}/>)
+  const display = (routines) => {
+
+  }
+
+  let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
 
   console.log(routines);
   console.log(date.getTime());
@@ -120,8 +135,8 @@ function RoutineContainer() {
       {displayRoutines}
       {routines.length > 0 ?
         <div>
-          <button onClick={deleteRoutine}>-</button>
-          <button onClick={addRoutine}>+</button>
+          <button class="addSub" onClick={deleteRoutine}>-</button>
+          <button class="addSub" onClick={addRoutine}>+</button>
         </div>
       :
         null
