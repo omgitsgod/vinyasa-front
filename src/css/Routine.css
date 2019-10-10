@@ -2,7 +2,7 @@
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: white;
-  width: 60vw;
+  width: 90vw;
   text-align: left;
 }
 
@@ -13,22 +13,22 @@
 .name {
 /*  background-color: blue; */
   float: left;
-  width: 15vw;
+  width: 45vw;
   min-height: 10vh;
 }
 
 .time {
 /*  background-color: green; */
   float: right;
-  width: 15vw;
+  width: 45vw;
   min-height: 10vh;
 }
 
 .pose-img {
-  height: 10vh;
+  height: 7vh;
   width: 10vw;
   float: right;
-  margin-right: -10vw;
+  margin-left: 5vw;
   max-height: 10vh;
 }
 
@@ -47,6 +47,7 @@
   font-size: 2.5vh;
   float: left;
   margin-left: 2.5vw;
+  max-width: 15vh;
 }
 
 .search {
@@ -58,9 +59,57 @@
 .slider {
   float: left;
   margin-top: 3.5vh;
-  margin-left: -10vw;
+  margin-left: 0vw;
+  width: 10vw;
 }
 
-.pop-up {
-  background-color: red;
+
+@media only screen and (min-width: 768px) {
+
+  .pose {
+    border-top-width: 1px;
+    width: 60vw;
+  }
+
+  .name {
+    width: 30vw;
+    min-height: 10vh;
+  }
+
+  .time {
+    width: 30vw;
+    min-height: 10vh;
+  }
+
+  .pose-img {
+    height: 10vh;
+    width: 10vw;
+    float: right;
+    max-height: 10vh;
+  }
+
+  .result {
+    font-size: 2.5vh;
+  }
+
+  .time-text {
+    font-size: 2.5vh;
+    margin-right: 2.5vw;
+  }
+
+  .name-text {
+    font-size: 2.5vh;
+    margin-left: 2.5vw;
+    max-width: 15vh;
+  }
+
+  .search {
+    margin-top: 2.5vh;
+    margin-left: 2.5vw;
+  }
+
+  .slider {
+    margin-top: 3.5vh;
+    margin-left: 5vw;
+  }
 }
