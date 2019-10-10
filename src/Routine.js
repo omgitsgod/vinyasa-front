@@ -54,23 +54,23 @@ function Routine(props) {
   console.log(svgs['./1.svg']);
   return (
     <div className='pose'>
-    <div className='name'>
-      {pose.chosen && !open ? <p className='name-text' onClick={() => setOpen(!open)}>{pose.chosen}</p> : null}
-      {open ?
-        <div>
-        <input list='brow' className='search' onChange={select}/>
-      <datalist id='brow'>
-        {[...poses.map(x => <option key={x.id} value={x.english_name}/>),...poses.map(x => <option key={x.id + 48} value={x.sanskrit_name}/>)]}
-      </datalist>
+      <div className='name'>
+        {pose.chosen && !open ? <p className='name-text' onClick={() => setOpen(!open)}>{pose.chosen}</p> : null}
+        {open ?
+          <div>
+          <input list='brow' className='search' onChange={select}/>
+        <datalist id='brow'>
+          {[...poses.map(x => <option key={x.id} value={x.english_name}/>),...poses.map(x => <option key={x.id + 48} value={x.sanskrit_name}/>)]}
+        </datalist>
+        </div>
+        : null }
+        {pose.id && !open ? <img src={svgs[pose.img]} className='pose-img' alt='pose'/> : null}
       </div>
-      : null }
-      {pose.id && !open ? <img src={svgs[pose.img]} className='pose-img' alt='pose'/> : null}
-    </div>
-    <div className='time'>
-      <input className='slider' onChange={select}
-        type="range" min={1} max={5} defaultValue={props.load.time || props.time} />
-      {time !== 1 ? <p className='time-text'>{props.load.time || time} minutes</p> : <p className='time-text'>{props.load.time || time} minute</p>}
-    </div>
+      <div className='time'>
+        <input className='slider' onChange={select}
+          type="range" min={1} max={5} defaultValue={props.load.time || props.time} />
+        {time !== 1 ? <p className='time-text'>{props.load.time || time} minutes</p> : <p className='time-text'>{props.load.time || time} minute</p>}
+      </div>
     </div>
   );
 }
