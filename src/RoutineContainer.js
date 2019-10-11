@@ -11,9 +11,9 @@ function RoutineContainer() {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    fetch(`https://vinyasa-backend.herokuapp.com/`)
-      .then(r => r.text())
-      .then(console.log)
+    //fetch(`https://vinyasa-backend.herokuapp.com/`)
+    //  .then(r => r.text())
+    //  .then(console.log)
       handleLoadDate(date)
   },[])
   const addToRoutineTimes = (list) => {
