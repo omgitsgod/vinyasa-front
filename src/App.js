@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GoogleButton from 'react-google-button'
 import RoutineContainer from './RoutineContainer'
 import pose from './imgs/25.svg'
@@ -21,6 +21,16 @@ credentials: 'include'})
     setIsAuthenticated(false)
     setUser(null)
   }
+
+  useEffect(() => {
+    fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
+      .then(r => r.json())
+      .then(json => {
+        if (json.email){
+        login(json)
+      }
+      })
+  }, [])
   return (
     <div className="App">
       <header className="App-header">
