@@ -10,7 +10,7 @@ function App(props) {
 
   const login = (x) => {
     console.log(x)
-    props.history.push('/')
+  //  props.history.push('/')
     setUser(x)
     setIsAuthenticated(true)
     console.log('currently logged in as: ', x.name)
