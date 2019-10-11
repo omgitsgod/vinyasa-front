@@ -58,7 +58,7 @@ function RoutineContainer(props) {
 
   const handleLoadDate = (date) => {
     setRoutines([])
-    fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`)
+    fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'GET', credentials: 'include'})
       .then(r => r.json())
       .then(json => {
         if(json){
@@ -74,9 +74,7 @@ function RoutineContainer(props) {
   const handleDeleteDate = () => {
     setRoutines([])
     setLoaded(false)
-    fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${date.getMonth() + 1}/${date.getDate()}`, {
-    method: 'delete'
-    })
+    fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'DELETE', credentials: 'include'})
   }
 
   const handleSaveDate = () => {
@@ -85,6 +83,7 @@ function RoutineContainer(props) {
     console.log(temp);
     fetch(`https://vinyasa-backend.herokuapp.com/saveRoutine`, {
       method: 'POST',
+      credentials: 'include',
       body: temp,
       headers: {'Content-Type': 'application/json'}
     })
