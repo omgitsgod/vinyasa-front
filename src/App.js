@@ -38,7 +38,7 @@ credentials: 'include'})
     <div className="App">
       <header className="App-header">
           <img src={pose} className="App-logo" alt="logo" />
-          <RoutineContainer />
+          <RoutineContainer isAuthenticated={isAuthenticated} user={user}/>
           {isAuthenticated ?
             <img className='avatar' src={user.photo} alt={'avatar'} onClick={()=>setAccountMenu(!accountMenu)}/>
             :
