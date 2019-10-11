@@ -3,7 +3,7 @@ import Calendar from 'react-calendar'
 import Routine from './Routine';
 import './css/RoutineContainer.css';
 
-function RoutineContainer() {
+function RoutineContainer(props) {
   const [routines, setRoutines] = useState([]);
   const [timeLeft, setTimeLeft] = useState(60);
   const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)))
@@ -121,7 +121,7 @@ function RoutineContainer() {
         <div>
           <button onClick={() => {setRoutines([]); addToRoutineTimes([])}}>New</button>
           {loaded ? <button style={{backgroundColor: 'red'}}onClick={() => handleDeleteDate()}>Delete</button> : null}
-          <button onClick={() => handleSaveDate()}>Save</button>
+          {props.isAuthenticated && props.user ? <button onClick={() => handleSaveDate()}>Save</button> : null }
         </div>
         :
         <div>
