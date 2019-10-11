@@ -25,3 +25,10 @@
 .App-link {
   color: #09d3ac;
 }
+
+.avatar {
+  height: 48px;
+  width: 48px;
+  float: right;
+  border-radius: 50%;
+}
