@@ -16,7 +16,7 @@ function App(props) {
     console.log('currently logged in as: ', x.name)
   }
   const logout = () => {
-    fetch(`https://pictopal-backend.herokuapp.com/logout`,{method: 'GET',
+    fetch(`https://vinyasa-backend.herokuapp.com/logout`,{method: 'GET',
 credentials: 'include'})
     setIsAuthenticated(false)
     setUser(null)
@@ -24,7 +24,7 @@ credentials: 'include'})
   return (
     <div className="App">
       <header className="App-header">
-          { !isAuthenticated ? <a href="https://pictopal-backend.herokuapp.com/auth/google"><GoogleButton/></a> : <button>Sign out {user.name}</button> }
+          { !isAuthenticated ? <a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a> : <button onClick={logout}>Sign out {user.name}</button> }
           <img src={pose} className="App-logo" alt="logo" />
           <RoutineContainer />
           <p>
