@@ -50,7 +50,7 @@ credentials: 'include'})
                 data-tip data-for='account'
               />
           }
-          {accountMenu ? !isAuthenticated ? <div><br/><a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a></div> : <button onClick={logout}>Sign out {user.name}</button> : null}
+          {accountMenu ? !isAuthenticated ? <div><br/><a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a></div> : <div><br/><button onClick={logout}>Sign out {user.name}</button></div> : null}
           <p>
             Vinyasa Flow
           </p>
