@@ -34,12 +34,12 @@ credentials: 'include'})
   return (
     <div className="App">
       <header className="App-header">
-          { !isAuthenticated ? <a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a> : <button onClick={logout}>Sign out {user.name}</button> }
           <img src={pose} className="App-logo" alt="logo" />
           <RoutineContainer />
           <p>
             Vinyasa Flow
           </p>
+          { !isAuthenticated ? <a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a> : <button onClick={logout}>Sign out {user.name}</button> }
       </header>
     </div>
   );
