@@ -6,6 +6,7 @@
     "react": "^16.9.0",
     "react-calendar": "^2.19.2",
     "react-dom": "^16.9.0",
+    "react-google-button": "^0.5.3",
     "react-scripts": "3.1.2"
   },
   "scripts": {
