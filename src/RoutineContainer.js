@@ -74,9 +74,13 @@ function RoutineContainer(props) {
   }
 
   const handleDeleteDate = () => {
-    setRoutines([])
-    setLoaded(false)
-    fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'DELETE', credentials: 'include'})
+    const temp = `${date.getMonth() + 1}/${date.getDate()}`
+    const confirm = window.confirm(`Are you sure you want to delete the routine for ${temp}?`)
+    if (confirm) {
+      setRoutines([])
+      setLoaded(false)
+      fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${temp}`,{method: 'DELETE', credentials: 'include'})
+    }
   }
 
   const handleSaveDate = () => {
