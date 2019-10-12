@@ -43,11 +43,9 @@ credentials: 'include'})
             <img className='avatar' src={user.photo} alt={'avatar'} onClick={()=>setAccountMenu(!accountMenu)}/>
             :
               <Icon path={mdiAccountCircle}
-                className="bottomrighticon"
                 size={2}
-                color={user ? '#25839f' : '#92a3a8'}
+                color='#92a3a8'
                 onClick={() => setAccountMenu(!accountMenu)}
-                data-tip data-for='account'
               />
           }
           {accountMenu ? !isAuthenticated ? <div><br/><a href="https://vinyasa-backend.herokuapp.com/auth/google"><GoogleButton/></a></div> : <div><br/><button onClick={logout}>Sign out {user.name}</button></div> : null}

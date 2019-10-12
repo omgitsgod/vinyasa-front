@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'
+import Icon from '@mdi/react'
+import {mdiNewBox, mdiTrashCan, mdiContentSave} from '@mdi/js'
 import Routine from './Routine';
 import './css/RoutineContainer.css';
 
@@ -118,9 +120,27 @@ function RoutineContainer(props) {
       <div className='heading'>
         {routines.length > 0 ?
         <div>
-          <button onClick={() => {setRoutines([]); addToRoutineTimes([])}}>New</button>
-          {loaded ? <button style={{backgroundColor: 'red'}}onClick={() => handleDeleteDate()}>Delete</button> : null}
-          {props.isAuthenticated && props.user ? <button onClick={() => handleSaveDate()}>Save</button> : null }
+          <Icon path={mdiNewBox}
+            size={1.5}
+            color='white'
+            onClick={() => {setRoutines([]); addToRoutineTimes([])}}
+          />
+          {loaded ?
+            <Icon path={mdiTrashCan}
+              size={1.5}
+              color='red'
+              onClick={() => handleDeleteDate()}
+            />
+            :
+            null}
+          {props.isAuthenticated && props.user ?
+            <Icon path={mdiContentSave}
+              size={1.5}
+              color='white'
+              onClick={() => handleSaveDate()}
+            />
+            :
+            null }
         </div>
         :
         <div>
