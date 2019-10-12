@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'
 import Icon from '@mdi/react'
-import {mdiNewBox, mdiTrashCan, mdiContentSave} from '@mdi/js'
+import {mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js'
 import Routine from './Routine';
 import './css/RoutineContainer.css';
 
@@ -121,12 +121,14 @@ function RoutineContainer(props) {
         {routines.length > 0 ?
         <div>
           <Icon path={mdiNewBox}
+            className='icon'
             size={1.5}
             color='white'
             onClick={() => {setRoutines([]); addToRoutineTimes([])}}
           />
           {loaded ?
             <Icon path={mdiTrashCan}
+              className='icon'
               size={1.5}
               color='red'
               onClick={() => handleDeleteDate()}
@@ -135,6 +137,7 @@ function RoutineContainer(props) {
             null}
           {props.isAuthenticated && props.user ?
             <Icon path={mdiContentSave}
+              className='icon'
               size={1.5}
               color='white'
               onClick={() => handleSaveDate()}
@@ -144,8 +147,18 @@ function RoutineContainer(props) {
         </div>
         :
         <div>
-          <button onClick={deleteRoutine}>-</button>
-          <button onClick={addRoutine}>+</button>
+          <Icon path={mdiMinusCircle}
+            className='icon'
+            size={1.5}
+            color='white'
+            onClick={deleteRoutine}
+          />
+          <Icon path={mdiPlusCircle}
+            className='icon'
+            size={1.5}
+            color='white'
+            onClick={addRoutine}
+          />
         </div>
         }
         {timeLeft !== 1 ? <p>{timeLeft} Minutes</p> : <p>{timeLeft} Minute</p>}
@@ -154,8 +167,18 @@ function RoutineContainer(props) {
       {displayRoutines}
       {routines.length > 0 ?
         <div>
-          <button class="addSub" onClick={deleteRoutine}>-</button>
-          <button class="addSub" onClick={addRoutine}>+</button>
+        <Icon path={mdiMinusCircle}
+          className='icon'
+          size={1.5}
+          color='white'
+          onClick={deleteRoutine}
+        />
+        <Icon path={mdiPlusCircle}
+          className='icon'
+          size={1.5}
+          color='white'
+          onClick={addRoutine}
+        />
         </div>
       :
         null
