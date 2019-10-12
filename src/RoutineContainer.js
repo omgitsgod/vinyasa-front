@@ -16,7 +16,9 @@ function RoutineContainer(props) {
     //fetch(`https://vinyasa-backend.herokuapp.com/`)
     //  .then(r => r.text())
     //  .then(console.log)
-      handleLoadDate(date)
+      if (props.isAuthenticated) {
+        handleLoadDate(date)
+      }
   },[])
   const addToRoutineTimes = (list) => {
     let temp
