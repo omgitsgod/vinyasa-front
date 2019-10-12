@@ -26,7 +26,7 @@ credentials: 'include'})
   }
 
   useEffect(() => {
-    fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
+    fetch(`https://vinyasa-backend.herokuapp.com/`,{method: 'GET', credentials: 'include'})
       .then(r => r.json())
       .then(json => {
         if (json.email){
