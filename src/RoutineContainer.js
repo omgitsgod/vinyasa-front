@@ -130,7 +130,7 @@ function RoutineContainer(props) {
             color='white'
             onClick={() => {setRoutines([]); addToRoutineTimes([])}}
           />
-          {loaded ?
+          {props.isAuthenticated && props.user && loaded ?
             <Icon path={mdiTrashCan}
               className='icon'
               size={1.5}
