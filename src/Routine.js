@@ -47,11 +47,9 @@ function Routine(props) {
         setPose(tempPose)
         setOpen(false)
         props.addToRoutines(props.num-1, tempPose)
-        console.log(pose);
       }
     }
   }
-  console.log(svgs['./1.svg']);
   return (
     <div className='pose'>
       <div className='name'>

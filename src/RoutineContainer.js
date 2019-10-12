@@ -67,7 +67,6 @@ function RoutineContainer(props) {
       .then(json => {
         if(json){
           setRoutines(json.routine)
-          console.log('json', json.routine);
           setLoaded(true)
         } else {
           setRoutines([])
@@ -88,7 +87,6 @@ function RoutineContainer(props) {
   const handleSaveDate = () => {
     let datey = `${date.getMonth() + 1}/${date.getDate()}`
     let temp = JSON.stringify({datey, routines})
-    console.log(temp);
     fetch(`https://vinyasa-backend.herokuapp.com/saveRoutine`, {
       method: 'POST',
       credentials: 'include',
@@ -117,9 +115,6 @@ function RoutineContainer(props) {
   }
 
   let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
-
-  console.log(routines);
-  console.log(date.getTime());
 
   return (
     <div className='mat'>

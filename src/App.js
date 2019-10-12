@@ -12,7 +12,6 @@ function App(props) {
   const [accountMenu, setAccountMenu] = useState(false)
 
   const login = (x) => {
-    console.log(x)
   //  props.history.push('/')
     setUser(x)
     setIsAuthenticated(true)
