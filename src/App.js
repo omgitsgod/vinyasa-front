@@ -11,7 +11,7 @@ function App(props) {
   const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [accountMenu, setAccountMenu] = useState(false)
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
 
   const login = (x) => {
     console.log(x)
