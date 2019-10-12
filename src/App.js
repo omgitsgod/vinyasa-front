@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '@mdi/react'
 import {mdiAccountCircle} from '@mdi/js'
-import cookie from 'react-cookies'
 import GoogleButton from 'react-google-button'
 import RoutineContainer from './RoutineContainer'
 import pose from './imgs/25.svg'
@@ -27,7 +26,6 @@ credentials: 'include'})
   }
 
   useEffect(() => {
-    console.log(cookie.loadAll());
     fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
       .then(r => r.json())
       .then(json => {
