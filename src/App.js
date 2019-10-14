@@ -35,7 +35,7 @@ credentials: 'include'})
   }, [])
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="App-body">
           <img src={pose} className="App-logo" alt="logo" />
           <RoutineContainer isAuthenticated={isAuthenticated} user={user}/>
           {isAuthenticated ?
@@ -51,7 +51,7 @@ credentials: 'include'})
           <p>
             Vinyasa Flow
           </p>
-      </header>
+      </div>
     </div>
   );
 }
