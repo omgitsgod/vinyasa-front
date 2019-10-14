@@ -129,9 +129,8 @@ function RoutineContainer(props) {
           />
           {props.isAuthenticated && props.user && loaded ?
             <Icon path={mdiTrashCan}
-              className='icon'
+              className='icon red'
               size={1.5}
-              color='red'
               onClick={() => handleDeleteDate()}
             />
             :
@@ -149,15 +148,13 @@ function RoutineContainer(props) {
         :
         <div>
           <Icon path={mdiMinusCircle}
-            className='icon'
+            className='icon red'
             size={1.5}
-            color='white'
             onClick={deleteRoutine}
           />
           <Icon path={mdiPlusCircle}
-            className='icon'
+            className='icon blue'
             size={1.5}
-            color='white'
             onClick={addRoutine}
           />
         </div>
@@ -169,15 +166,13 @@ function RoutineContainer(props) {
       {routines.length > 0 ?
         <div>
         <Icon path={mdiMinusCircle}
-          className='icon'
+          className='icon red'
           size={1.5}
-          color='white'
           onClick={deleteRoutine}
         />
         <Icon path={mdiPlusCircle}
-          className='icon'
+          className='icon blue'
           size={1.5}
-          color='white'
           onClick={addRoutine}
         />
         </div>
