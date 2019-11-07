@@ -22,7 +22,7 @@ function Routine(props) {
     return ()=> {
       props.addToRoutineTimes([...props.routines].filter(x => x.num !== props.num))
     }
-  }, [])
+  }, [props])
 
 
   const select = (e) => {
