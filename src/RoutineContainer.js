@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { animateScroll } from 'react-scroll'
 import Calendar from 'react-calendar'
 import Icon from '@mdi/react'
 import {mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js'
@@ -20,6 +21,11 @@ function RoutineContainer(props) {
         handleLoadDate(date)
       }
   },[date, props.isAuthenticated])
+
+  const scrollAction = () => {
+    animateScroll.scrollToBottom()
+  }
+
   const addToRoutineTimes = (list) => {
     let temp
     if (list) {
@@ -46,12 +52,14 @@ function RoutineContainer(props) {
   const addRoutine = () => {
     let temp = [...routines, {num: routines.length + 1, time: 2}]
     setRoutines(temp)
+    scrollAction()
   }
 
   const deleteRoutine = () => {
     let temp = routines.filter(x => x.num !== routines.length)
     addToRoutineTimes(temp)
     setRoutines(temp)
+    scrollAction()
   }
 
   const handleDate = (date) => {
@@ -156,7 +164,7 @@ function RoutineContainer(props) {
       </div>
       {displayRoutines}
       {routines.length > 0 ?
-        <div id='bottom-add-minus'>
+        <div name='bottom-add-minus' id='bottom-add-minus'>
         <Icon path={mdiMinusCircle}
           className='icon red'
           size={1.5}
