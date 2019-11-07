@@ -19,7 +19,7 @@ function RoutineContainer(props) {
       if (props.isAuthenticated) {
         handleLoadDate(date)
       }
-  },[])
+  },[date, props.isAuthenticated])
   const addToRoutineTimes = (list) => {
     let temp
     if (list) {
