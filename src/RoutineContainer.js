@@ -106,14 +106,6 @@ function RoutineContainer(props) {
     setRoutines(temp)
   }
 
-  const db = () => {
-    fetch(`https://vinyasa-backend.herokuapp.com/getUser`,{method: 'GET', credentials: 'include'})
-  }
-
-  const display = (routines) => {
-
-  }
-
   let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
 
   return (
