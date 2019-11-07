@@ -164,7 +164,7 @@ function RoutineContainer(props) {
       </div>
       {displayRoutines}
       {routines.length > 0 ?
-        <div>
+        <div id='bottom-add-minus'>
         <Icon path={mdiMinusCircle}
           className='icon red'
           size={1.5}
