@@ -20,6 +20,7 @@ function App(props) {
   const logout = () => {
     fetch(`https://vinyasa-backend.herokuapp.com/logout`,{method: 'GET',
 credentials: 'include'})
+    setAccountMenu(false)
     setIsAuthenticated(false)
     setUser(null)
   }
