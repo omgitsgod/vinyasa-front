@@ -14,12 +14,10 @@ function RoutineContainer(props) {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    //fetch(`https://vinyasa-backend.herokuapp.com/`)
-    //  .then(r => r.text())
-    //  .then(console.log)
-      if (props.isAuthenticated) {
-        handleLoadDate(date)
-      }
+    fetch(`https://vinyasa-backend.herokuapp.com/`)
+    if (props.isAuthenticated) {
+     handleLoadDate(date)
+    }
   },[date, props.isAuthenticated])
 
   const scrollAction = () => {
