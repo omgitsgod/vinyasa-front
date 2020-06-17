@@ -12,17 +12,17 @@ function Routine(props) {
   const [time, setTime] = useState(2)
   const [pose, setPose] = useState({})
   const [open, setOpen] = useState(true)
-  useEffect(()=>{
-    props.addToRoutineTimes()
-    if (props.load.id) {
-      setPose(props.load)
-      setOpen(false)
-      props.addToRoutines(props.num-1, props.load)
-    }
-    return ()=> {
-      props.addToRoutineTimes([...props.routines].filter(x => x.num !== props.num))
-    }
-  }, [props])
+//  useEffect(()=>{
+//    props.addToRoutineTimes()
+//    if (props.load.id) {
+//      setPose(props.load)
+//      setOpen(false)
+//      props.addToRoutines(props.num-1, props.load)
+//   }
+//    return ()=> {
+//      props.addToRoutineTimes([...props.routines].filter(x => x.num !== props.num))
+//    }
+//  }, [props])
 
 
   const select = (e) => {
