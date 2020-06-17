@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { poses } from './constants'
+import { poses } from './constants';
 import './css/Routine.css';
-const reqSvgs = require.context ( './imgs', true, /\.svg$/ )
-const paths = reqSvgs.keys ()
+
+const reqSvgs = require.context('./imgs', true, /\.svg$/);
+const paths = reqSvgs.keys();
 const svgs = paths.reduce((images,path) => {
-    images[path] = reqSvgs(path)
-    return images
-  }, {} )
+  images[path] = reqSvgs(path);
+  return images;
+  }, {});
 
 function Routine(props) {
-  const [time, setTime] = useState(2)
-  const [pose, setPose] = useState({})
-  const [open, setOpen] = useState(true)
+
+  const [time, setTime] = useState(2);
+  const [pose, setPose] = useState({});
+  const [open, setOpen] = useState(true);
+
 //  useEffect(()=>{
 //    props.addToRoutineTimes()
 //    if (props.load.id) {
@@ -24,32 +27,36 @@ function Routine(props) {
 //    }
 //  }, [props])
 
-
   const select = (e) => {
-    let term = e.target.value
+
+    let term = e.target.value;
+
     if(term > 0) {
-      let temp = pose
-      temp.time = parseInt(term)
-      setTime(temp.time)
-      setPose(temp)
-      props.addToRoutines(props.num-1, temp)
+      let temp = pose;
+      temp.time = parseInt(term);
+      setTime(temp.time);
+      setPose(temp);
+      props.addToRoutines(props.num-1, temp);
     } else {
       if (poses.filter(x => x.english_name === term)[0] || poses.filter(x => x.sanskrit_name === term)[0]) {
-        let tempPose
+        let tempPose;
+
         if (poses.filter(x => x.english_name === term)[0]) {
-          tempPose = {...poses.filter(x => x.english_name === term)[0]}
-          tempPose.chosen = tempPose.english_name
+          tempPose = {...poses.filter(x => x.english_name === term)[0]};
+          tempPose.chosen = tempPose.english_name;
         } else if (poses.filter(x => x.sanskrit_name === term)[0])  {
-          tempPose = {...poses.filter(x => x.sanskrit_name === term)[0]}
-          tempPose.chosen = tempPose.sanskrit_name
+          tempPose = {...poses.filter(x => x.sanskrit_name === term)[0]};
+          tempPose.chosen = tempPose.sanskrit_name;
         }
-        tempPose.time = time
-        setPose(tempPose)
-        setOpen(false)
-        props.addToRoutines(props.num-1, tempPose)
+
+        tempPose.time = time;
+        setPose(tempPose);
+        setOpen(false);
+        props.addToRoutines(props.num-1, tempPose);
       }
     }
   }
+
   return (
     <div className='pose'>
       <div className='name'>
