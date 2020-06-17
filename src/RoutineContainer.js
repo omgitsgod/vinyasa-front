@@ -1,120 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import { animateScroll } from 'react-scroll'
-import Calendar from 'react-calendar'
-import Icon from '@mdi/react'
-import {mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js'
+import { animateScroll } from 'react-scroll';
+import Calendar from 'react-calendar';
+import Icon from '@mdi/react';
+import {mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js';
 import Routine from './Routine';
 import './css/RoutineContainer.css';
 
 function RoutineContainer(props) {
+
   const [routines, setRoutines] = useState([]);
   const [timeLeft, setTimeLeft] = useState(60);
-  const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)))
-  const [open, setOpen] = useState(false)
-  const [loaded, setLoaded] = useState(false)
+  const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)));
+  const [open, setOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`https://vinyasa-backend.herokuapp.com/`)
+
+    fetch(`https://vinyasa-backend.herokuapp.com/`);
+
     if (props.isAuthenticated) {
-     handleLoadDate(date)
+     handleLoadDate(date);
     }
-  },[date, props.isAuthenticated])
+  },[date, props.isAuthenticated]);
 
   const scrollAction = () => {
-    animateScroll.scrollToBottom()
+
+    animateScroll.scrollToBottom();
   }
 
   const addToRoutineTimes = (list) => {
-    let temp
+
+    let temp;
+
     if (list) {
-    temp = list.map(x => x.time)
+    temp = list.map(x => x.time);
   } else {
-    temp = routines.map(x => x.time)
+    temp = routines.map(x => x.time);
   }
-    let x = 60
+
+    let x = 60;
+
     if (temp.length > 0) {
-      x = x - temp.reduce((x,y) => x+y)
+      x = x - temp.reduce((x,y) => x+y);
     }
-    setTimeLeft(x)
+    setTimeLeft(x);
   }
 
   const addToRoutines = (num, routine) => {
-    let temp = [...routines]
-    let tempy = {...routine}
-    tempy.num = num + 1
-    temp[num] = tempy
-    addToRoutineTimes(temp)
-    setRoutines(temp)
+
+    let temp = [...routines];
+    let tempy = {...routine};
+    tempy.num = num + 1;
+    temp[num] = tempy;
+    addToRoutineTimes(temp);
+    setRoutines(temp);
   }
 
   const addRoutine = () => {
-    let temp = [...routines, {num: routines.length + 1, time: 2}]
-    setRoutines(temp)
-    scrollAction()
+
+    let temp = [...routines, {num: routines.length + 1, time: 2}];
+    setRoutines(temp);
+    scrollAction();
   }
 
   const deleteRoutine = () => {
-    let temp = routines.filter(x => x.num !== routines.length)
-    addToRoutineTimes(temp)
-    setRoutines(temp)
-    scrollAction()
+
+    let temp = routines.filter(x => x.num !== routines.length);
+    addToRoutineTimes(temp);
+    setRoutines(temp);
+    scrollAction();
   }
 
   const handleDate = (date) => {
-    setDate(date)
-    handleLoadDate(date)
-    setOpen(false)
+
+    setDate(date);
+    handleLoadDate(date);
+    setOpen(false);
   }
 
   const handleLoadDate = (date) => {
-    setRoutines([])
+
+    setRoutines([]);
     fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'GET', credentials: 'include'})
       .then(r => r.json())
       .then(json => {
+
         if(json){
-          setRoutines(json.routine)
-          setLoaded(true)
+          setRoutines(json.routine);
+          setLoaded(true);
         } else {
-          setRoutines([])
+          setRoutines([]);
         }
-      })
+      });
   }
 
   const handleDeleteDate = () => {
-    const temp = `${date.getMonth() + 1}/${date.getDate()}`
-    const confirm = window.confirm(`Are you sure you want to delete the routine for ${temp}?`)
+
+    const temp = `${date.getMonth() + 1}/${date.getDate()}`;
+    const confirm = window.confirm(`Are you sure you want to delete the routine for ${temp}?`);
+
     if (confirm) {
-      setRoutines([])
-      setLoaded(false)
-      fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${temp}`,{method: 'DELETE', credentials: 'include'})
+      setRoutines([]);
+      setLoaded(false);
+      fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${temp}`,{method: 'DELETE', credentials: 'include'});
     }
   }
 
   const handleSaveDate = () => {
-    let datey = `${date.getMonth() + 1}/${date.getDate()}`
-    let temp = JSON.stringify({datey, routines})
+
+    let datey = `${date.getMonth() + 1}/${date.getDate()}`;
+    let temp = JSON.stringify({datey, routines});
+
     fetch(`https://vinyasa-backend.herokuapp.com/saveRoutine`, {
       method: 'POST',
       credentials: 'include',
       body: temp,
       headers: {'Content-Type': 'application/json'}
-    })
+    });
   }
 
   const handleDeleteIndividual = (num) => {
+
     const temp = [...routines].filter(x => x.num !== num)
+
     for (let i = 0; i < temp.length; i++) {
+
       if (temp[i].num > num) {
-        temp[i].num -= 1
+        temp[i].num -= 1;
       }
     }
-    displayRoutines = temp.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
-    setRoutines(temp)
+
+    displayRoutines = temp.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>);
+    setRoutines(temp);
   }
 
-  let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>)
+  let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>);
 
   return (
+    
     <div className='mat'>
       <div className='heading'>
         {routines.length > 0 ?
