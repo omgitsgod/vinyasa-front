@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { animateScroll } from 'react-scroll';
 import Calendar from 'react-calendar';
 import Icon from '@mdi/react';
-import {mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js';
+import { mdiNewBox, mdiTrashCan, mdiContentSave, mdiPlusCircle, mdiMinusCircle } from '@mdi/js';
 import Routine from './Routine';
 import './css/RoutineContainer.css';
+
 
 function RoutineContainer(props) {
 
@@ -13,61 +14,69 @@ function RoutineContainer(props) {
   const [date, setDate] = useState(new Date(new Date().setHours(0,0,0,0)));
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const { isAuthenticated, user } = props;
+
+  const wakeBackend = () => {
+
+    fetch(`https://vinyasa-backend.herokuapp.com/`);
+  }
 
   useEffect(() => {
 
-    fetch(`https://vinyasa-backend.herokuapp.com/`);
-
-    if (props.isAuthenticated) {
+    if (isAuthenticated) {
      handleLoadDate(date);
+    } else {
+      wakeBackend();
     }
-  },[date, props.isAuthenticated]);
+  },[date, isAuthenticated]);
 
   const scrollAction = () => {
 
     animateScroll.scrollToBottom();
   }
 
-  const addToRoutineTimes = (list) => {
+  const handleSessionTime = (list) => {
 
-    let temp;
+    let sessionTime = 60;
+    let routineTimes;
 
     if (list) {
-    temp = list.map(x => x.time);
-  } else {
-    temp = routines.map(x => x.time);
-  }
-
-    let x = 60;
-
-    if (temp.length > 0) {
-      x = x - temp.reduce((x,y) => x+y);
+      routineTimes = list.map(x => x.time);
+    } else {
+      routineTimes = routines.map(x => x.time);
     }
-    setTimeLeft(x);
+
+    if (routineTimes.length > 0) {
+      sessionTime = sessionTime - routineTimes.reduce((x,y) => x+y);
+    }
+    setTimeLeft(sessionTime);
   }
 
   const addToRoutines = (num, routine) => {
 
-    let temp = [...routines];
-    let tempy = {...routine};
-    tempy.num = num + 1;
-    temp[num] = tempy;
-    addToRoutineTimes(temp);
-    setRoutines(temp);
+    let tempRoutines = [...routines];
+    let tempRoutine = {...routine};
+    
+    tempRoutine.num = num + 1;
+    tempRoutines[num] = tempRoutine;
+    handleSessionTime(tempRoutines);
+    setRoutines(tempRoutines);
   }
 
   const addRoutine = () => {
 
-    let temp = [...routines, {num: routines.length + 1, time: 2}];
-    setRoutines(temp);
+    const tempRoutines = [...routines, {num: routines.length + 1, time: 2}];
+
+    setRoutines(tempRoutines);
     scrollAction();
   }
 
   const deleteRoutine = () => {
 
-    let temp = routines.filter(x => x.num !== routines.length);
-    addToRoutineTimes(temp);
-    setRoutines(temp);
+    const tempRoutines = routines.filter(x => x.num !== routines.length);
+
+    handleSessionTime(tempRoutines);
+    setRoutines(tempRoutines);
     scrollAction();
   }
 
@@ -78,43 +87,39 @@ function RoutineContainer(props) {
     setOpen(false);
   }
 
-  const handleLoadDate = (date) => {
+  const handleLoadDate = async (date) => {
 
     setRoutines([]);
-    fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'GET', credentials: 'include'})
-      .then(r => r.json())
-      .then(json => {
-
-        if(json){
-          setRoutines(json.routine);
-          setLoaded(true);
-        } else {
-          setRoutines([]);
-        }
-      });
+    const loadedDate = await fetch(`https://vinyasa-backend.herokuapp.com/loadRoutine/${date.getMonth() + 1}/${date.getDate()}`,{method: 'GET', credentials: 'include'}).then(r => r.json());
+    
+    if (loadedDate) {
+      setRoutines(loadedDate.routine);
+    } else {
+      setRoutines([]);
+    }
   }
 
   const handleDeleteDate = () => {
 
-    const temp = `${date.getMonth() + 1}/${date.getDate()}`;
-    const confirm = window.confirm(`Are you sure you want to delete the routine for ${temp}?`);
+    const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
+    const confirm = window.confirm(`Are you sure you want to delete the routine for ${dateString}?`);
 
     if (confirm) {
       setRoutines([]);
       setLoaded(false);
-      fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${temp}`,{method: 'DELETE', credentials: 'include'});
+      fetch(`https://vinyasa-backend.herokuapp.com/deleteRoutine/${dateString}`,{method: 'DELETE', credentials: 'include'});
     }
   }
 
   const handleSaveDate = () => {
 
-    let datey = `${date.getMonth() + 1}/${date.getDate()}`;
-    let temp = JSON.stringify({datey, routines});
+    const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
+    const json = JSON.stringify({dateString, routines});
 
     fetch(`https://vinyasa-backend.herokuapp.com/saveRoutine`, {
       method: 'POST',
       credentials: 'include',
-      body: temp,
+      body: json,
       headers: {'Content-Type': 'application/json'}
     });
   }
@@ -129,45 +134,78 @@ function RoutineContainer(props) {
         temp[i].num -= 1;
       }
     }
-
-    displayRoutines = temp.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>);
     setRoutines(temp);
   }
 
-  let displayRoutines = routines.map(x => <Routine load={x} key={x.num} num={x.num} addToRoutines={addToRoutines} addToRoutineTimes={addToRoutineTimes} handleDeleteIndividual={handleDeleteIndividual} routines={routines}/>);
-
   return (
-    
     <div className='mat'>
       <div className='heading'>
         {routines.length > 0 ?
-        <div>
-          <Icon path={mdiNewBox}
-            className='icon'
-            size={1.5}
-            color='white'
-            onClick={() => {setRoutines([]); addToRoutineTimes([])}}
-          />
-          {props.isAuthenticated && props.user && loaded ?
-            <Icon path={mdiTrashCan}
-              className='icon red'
-              size={1.5}
-              onClick={() => handleDeleteDate()}
-            />
-            :
-            null}
-          {props.isAuthenticated && props.user ?
-            <Icon path={mdiContentSave}
+          <div>
+            <Icon path={mdiNewBox}
               className='icon'
               size={1.5}
               color='white'
-              onClick={() => handleSaveDate()}
+              onClick={() => {setRoutines([]); handleSessionTime([]);}}
             />
+            {isAuthenticated && user && loaded ?
+              <Icon path={mdiTrashCan}
+                className='icon red'
+                size={1.5}
+                onClick={() => handleDeleteDate()}
+              />
             :
-            null }
-        </div>
+              null
+            }
+            {isAuthenticated && user ?
+              <Icon path={mdiContentSave}
+                className='icon'
+                size={1.5}
+                color='white'
+                onClick={() => handleSaveDate()}
+              />
+            :
+              null 
+            }
+          </div>
         :
-        <div>
+          <div>
+            <Icon path={mdiMinusCircle}
+              className='icon red'
+              size={1.5}
+              onClick={deleteRoutine}
+            />
+            <Icon path={mdiPlusCircle}
+              className='icon blue'
+              size={1.5}
+              onClick={addRoutine}
+            />
+          </div>
+        }
+        {timeLeft !== 1 ? 
+          <p>{timeLeft} Minutes</p> 
+        : 
+          <p>{timeLeft} Minute</p>
+        }
+        {!open ? 
+          <p onClick={setOpen}>{date.toDateString()}</p> 
+        : 
+          <Calendar onChange={handleDate} value={date} />
+        }
+      </div>
+      {routines.map((x) => (
+        <Routine
+          load={x}
+          key={x.num}
+          num={x.num}
+          addToRoutines={addToRoutines}
+          handleSessionTime={handleSessionTime}
+          handleDeleteIndividual={handleDeleteIndividual}
+          routines={routines}
+        />
+      ))}
+      {routines.length > 0 ?
+        <div name='bottom-add-minus' id='bottom-add-minus'>
           <Icon path={mdiMinusCircle}
             className='icon red'
             size={1.5}
@@ -178,24 +216,6 @@ function RoutineContainer(props) {
             size={1.5}
             onClick={addRoutine}
           />
-        </div>
-        }
-        {timeLeft !== 1 ? <p>{timeLeft} Minutes</p> : <p>{timeLeft} Minute</p>}
-        {!open ? <p onClick={setOpen}>{date.toDateString()}</p> : <Calendar onChange={handleDate} value={date}/>}
-      </div>
-      {displayRoutines}
-      {routines.length > 0 ?
-        <div name='bottom-add-minus' id='bottom-add-minus'>
-        <Icon path={mdiMinusCircle}
-          className='icon red'
-          size={1.5}
-          onClick={deleteRoutine}
-        />
-        <Icon path={mdiPlusCircle}
-          className='icon blue'
-          size={1.5}
-          onClick={addRoutine}
-        />
         </div>
       :
         null
