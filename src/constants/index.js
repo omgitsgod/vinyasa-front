@@ -47,4 +47,13 @@
   {id:46,sanskrit_name:"Virabhadrasana Three",english_name:"Warrior Three",img:"./46.svg"},
   {id:47,sanskrit_name:"Urdhva Dhanurasana",english_name:"Wheel",img:"./47.svg"},
   {id:48,sanskrit_name:"Camatkarasana",english_name:"Wild Thing",img:"./48.svg"}
-]
+];
+
+export const reqSvgs = require.context('../imgs', true, /\.svg$/);
+
+export const paths = reqSvgs.keys();
+
+export const svgs = paths.reduce((images, path) => {
+  images[path] = reqSvgs(path);
+  return images;
+}, {});
